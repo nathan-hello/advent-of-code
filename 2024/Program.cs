@@ -46,6 +46,7 @@ public class Day1
     }
 }
 
+// This produces 288 which is incorrect. No part 2 :(
 public class Day2
 {
     private List<List<int>> input = [];
@@ -57,16 +58,12 @@ public class Day2
         foreach (string line in lines)
         {
             List<int> arr = [];
-            try
+            foreach (string n in line.Split(" "))
             {
-                foreach (string n in line.Split(" "))
-                {
-                    var num = Convert.ToInt32(n);
-                    arr.Add(num);
-                }
+                if (n == "EOF" || n == "") {return;}
+                var num = Convert.ToInt32(n);
+                arr.Add(num);
             }
-            catch { break; };
-
             input.Add(arr);
         }
     }
@@ -75,6 +72,7 @@ public class Day2
         var count = 0;
         foreach (var test in input)
         {
+
             var diff = RuleDifference(test);
             var slop = RuleSlope(test);
             if (diff == -1 && slop == -1)
@@ -84,12 +82,13 @@ public class Day2
             }
             var baddie = diff != -1 ? diff : slop;
             var s = Asdf(test, baddie);
-            if (s) {
+            if (s)
+            {
                 count++;
             }
 
         }
-        Console.WriteLine("Day 2 Part 2: {0}", count);
+        Console.WriteLine("Day 2 Part 2 - {0}", count);
     }
 
     private bool Asdf(List<int> test, int i)
@@ -98,7 +97,7 @@ public class Day2
         cpy.RemoveAt(i);
         var diff = RuleDifference(cpy);
         var slop = RuleSlope(cpy);
-        Console.WriteLine("line: {0} - baddie: {1} - cpy {4} - diff: {2} - slop: {3}",string.Join(",", test), i, diff, slop, string.Join(",", cpy));
+        Console.WriteLine("line: {0} - baddie: {1} - cpy {4} - diff: {2} - slop: {3}", string.Join(",", test), i, diff, slop, string.Join(",", cpy));
         return diff == -1 && slop == -1;
     }
 
@@ -111,7 +110,7 @@ public class Day2
             var d = Math.Abs(test[i] - test[i + 1]);
             if (d > 3 || d < 1)
             {
-                Console.WriteLine("test: {0} - d: {1} - i: {2}", string.Join(",", test), d, i);
+                Console.WriteLine("rule difference test: {0} - d: {1} - i: {2}", string.Join(",", test), d, i);
                 return i;
             }
         }
@@ -119,16 +118,59 @@ public class Day2
     }
     private int RuleSlope(List<int> test)
     {
+        Console.WriteLine("rule slope test: {0}",string.Join(",", test));
         bool dir = test[0] - test[1] > 0;
-        for (var i = 0; i < test.Count - 1; i++)
-        {
-            var t = test[i] - test[i + 1] > 0;
-            if (t != dir)
-            {
-                return i;
-            }
+        for (var i = 0; i < test.Count - 1; i++) {
+                var curr = test[i];
+                var next = test[i + 1];
+                var newdir = curr - next > 0 || curr == next;
+                if (dir != newdir) {
+                        return i;
+                }
 
         }
         return -1;
     }
 }
+
+class Day3() {
+        
+        public Day3() {
+
+        }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
